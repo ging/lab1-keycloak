@@ -165,6 +165,15 @@ Realice los siguientes pasos:
    roles". Debe figurar `editor`, marcado como heredado de `redaccion`. Repita con `marta`:
    figurará `lector`, heredado de `lectura`. Ninguno de los dos tiene rol asignado de forma directa.
 
+Antes de continuar, conviene detenerse un momento en la contraseña que se acaba de asignar. En la
+pestaña **Credentials** de cualquiera de los dos usuarios, la opción **Show data** muestra cómo la
+ha almacenado Keycloak: un algoritmo (`argon2`, en su variante `id`) acompañado de varios parámetros
+(`memory`, `hashIterations`, `parallelism`). Lo que no muestra en ningún caso es la contraseña, ni
+tampoco su *hash* completo.
+
+> **Pregunta.** ¿Qué aportan esos parámetros a la seguridad del almacenamiento de la contraseña? ¿Y
+> por qué ni siquiera el administrador del realm puede consultar la contraseña de un usuario?
+
 Para comprobar que el modelo tiene consecuencias reales, abra una **ventana privada** y acceda al
 portal de cuenta del usuario en `http://localhost:8080/realms/curso/account/`. Inicie sesión como
 `diego`, modifique un campo del perfil (por ejemplo, el nombre) y guarde: la operación se completa,
@@ -275,6 +284,14 @@ cliente: `account` → `delete-account`.
 > <strong>Authentication</strong>. Rol y <em>required action</em> son dos mecanismos distintos que
 > deben coincidir.
 > </details>
+
+Con este apartado, el modelo reúne ya usuarios cuyos permisos llegan por caminos distintos: grupos
+diferentes, roles compuestos y roles de cliente. Cabe preguntarse, entonces, qué ocurre cuando esos
+caminos parecen no estar de acuerdo.
+
+> **Pregunta.** Supóngase que una persona pertenece a dos grupos cuyos roles parecen contradecirse:
+> uno le concede un permiso y el otro, en principio, debería negárselo. ¿Qué permisos efectivos
+> tendría en Keycloak, y por qué?
 
 ---
 
