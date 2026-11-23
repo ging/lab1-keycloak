@@ -139,6 +139,20 @@ editor es también un lector". Esta relación no es un mero atajo: expresa una j
 > **Pregunta.** ¿Por qué se asocia `editor` con el rol `lector`, en lugar de añadirle directamente el
 > permiso `view-profile` que `lector` ya tiene?
 
+Antes de crear a las personas, queda un último ajuste en el realm. Un modelo de acceso no solo debe
+decidir quién puede hacer qué: también debe dejar constancia de lo que ocurre, para poder responder
+más adelante a preguntas como *quién entró*, *cuándo* o *quién cambió un permiso*. Es lo que se
+conoce como **trazabilidad** (*accountability*). Keycloak la ofrece mediante el registro de
+**eventos**, que viene desactivado por defecto y solo registra lo que ocurra a partir del momento en
+que se activa; por eso conviene hacerlo ahora.
+
+1. **Eventos de usuario:** **Realm settings** → pestaña **Events** → sub-pestaña **User events
+   settings** → active **Save events** → **Save**. Quedan registrados los inicios de sesión, los
+   errores de acceso, los cambios de perfil, etc.
+2. **Eventos de administración:** sub-pestaña **Admin events settings** → active **Save events** y
+   también **Include representation** → **Save**. Quedan registrados los cambios que se hagan desde
+   la consola de administración, junto con el detalle de lo que se cambió.
+
 ---
 
 ## 3. Usuarios, grupos y herencia de permisos
@@ -257,6 +271,21 @@ funcionan los tokens.
 > **Pregunta.** Diego pierde la capacidad de editar con solo actualizar la página, sin cerrar ni
 > volver a abrir sesión. ¿Cómo es posible?
 
+Queda una última comprobación. Si mañana alguien preguntara *quién* retiró el permiso de edición y
+*cuándo*, ni la pantalla ni el token sabrían responder. Para eso se activó el registro de eventos en
+el apartado 2.
+
+1. Menú **Events** → pestaña **Admin events**. La entrada más reciente corresponde a la retirada del
+   rol: tipo de recurso `REALM_ROLE_MAPPING`, operación `DELETE`, sobre una ruta que empieza por
+   `groups/`. En el menú de la fila (**⋮**) → **Representation** se ve qué rol se retiró.
+2. Pestaña **User events**: figuran los inicios de sesión de Diego y de Marta (`LOGIN`) y, si alguien
+   se equivocó de contraseña, también los intentos fallidos (`LOGIN_ERROR`), con la fecha y la
+   dirección IP.
+
+> **Pregunta.** ¿Qué información aporta el registro de eventos que no aportaba el token? En la
+> entrada de la retirada del rol, la columna **User** no muestra un nombre, sino un identificador:
+> ¿de quién es, y por qué no aparece entre los usuarios del realm `curso`?
+
 ---
 
 ## 6. Un permiso nuevo: el borrado de cuenta
@@ -308,5 +337,8 @@ caminos parecen no estar de acuerdo.
   carga de nuevo; o (b) cerrar la sesión del usuario desde la consola de administración, en **Users**
   → el usuario → pestaña **Sessions** → **Sign out**, lo que invalida la sesión activa y obliga a
   emitir un token nuevo en el próximo acceso.
+- El menú **Events** aparece vacío → el registro de eventos solo guarda lo ocurrido desde que se
+  activa. Compruebe que **Save events** está activado en las dos sub-pestañas del apartado 2 y
+  repita alguna acción (por ejemplo, un inicio de sesión).
 - Para reiniciar el entorno desde cero (se elimina el realm, los usuarios y los roles):
   `docker compose down -v && docker compose up -d`.
