@@ -101,7 +101,7 @@ docker compose ps
 Una vez operativo, abra `http://localhost:8080/` y acceda a la **Administration Console** con las
 credenciales definidas en `.env` (`admin` / `admin` por defecto). En la entrada "Manage realms", el realm `master` sera el que aparezca activo: es el realm de administración del propio Keycloak, y conviene tenerlo presente porque se retomará al final de la práctica.
 
-> **Pregunta.** Al acceder, Keycloak advierte: "you are logged in as a temporary admin user". ¿Por
+> **Pregunta 1.1.** Al acceder, Keycloak advierte: "you are logged in as a temporary admin user". ¿Por
 > qué califica esa cuenta de *temporary*?
 
 ---
@@ -136,7 +136,7 @@ El paso 5 es el más interesante del apartado. Un rol que contiene a otros se de
 compuesto**, y al asociar `editor` con `lector` se está declarando de forma explícita que "todo
 editor es también un lector". Esta relación no es un mero atajo: expresa una jerarquía real.
 
-> **Pregunta.** ¿Por qué se asocia `editor` con el rol `lector`, en lugar de añadirle directamente el
+> **Pregunta 2.1.** ¿Por qué se asocia `editor` con el rol `lector`, en lugar de añadirle directamente el
 > permiso `view-profile` que `lector` ya tiene?
 
 Antes de crear a las personas, queda un último ajuste en el realm. Un modelo de acceso no solo debe
@@ -185,7 +185,7 @@ ha almacenado Keycloak: un algoritmo (`argon2`, en su variante `id`) acompañado
 (`memory`, `hashIterations`, `parallelism`). Lo que no muestra en ningún caso es la contraseña, ni
 tampoco su *hash* completo.
 
-> **Pregunta.** ¿Qué aportan esos parámetros a la seguridad del almacenamiento de la contraseña? ¿Y
+> **Pregunta 3.1.** ¿Qué aportan esos parámetros a la seguridad del almacenamiento de la contraseña? ¿Y
 > por qué ni siquiera el administrador del realm puede consultar la contraseña de un usuario?
 
 Para comprobar que el modelo tiene consecuencias reales, abra una **ventana privada** y acceda al
@@ -200,7 +200,7 @@ porque `diego` posee `manage-account` a través de su rol `editor`.
 > en el apartado 4 mediante el token; y en el apartado 5 se reproducirá esta misma situación de forma
 > deliberada, para entender a qué se debe.
 
-> **Pregunta.** ¿Qué ventaja concreta aporta este modelo si `redaccion` tuviera 200 personas en lugar
+> **Pregunta 3.2.** ¿Qué ventaja concreta aporta este modelo si `redaccion` tuviera 200 personas en lugar
 > de una?
 
 ---
@@ -227,7 +227,7 @@ sobre los permisos no está en la interfaz, está en el token.
 A continuación, una última observación sobre el aislamiento. Vuelva a la consola de administración,
 cambie el desplegable de `curso` a `master` y abra **Users**. Ni Marta ni Diego aparecen.
 
-> **Pregunta.** ¿Por qué un usuario creado en el realm `curso` no existe en el realm `master`?
+> **Pregunta 4.1.** ¿Por qué un usuario creado en el realm `curso` no existe en el realm `master`?
 
 ---
 
@@ -268,7 +268,7 @@ El permiso de Diego ha cambiado sin que se le haya tocado a él directamente, y 
 actualizar la página para que el cambio surta efecto. Esto revela algo importante sobre cómo
 funcionan los tokens.
 
-> **Pregunta.** Diego pierde la capacidad de editar con solo actualizar la página, sin cerrar ni
+> **Pregunta 5.1.** Diego pierde la capacidad de editar con solo actualizar la página, sin cerrar ni
 > volver a abrir sesión. ¿Cómo es posible?
 
 Queda una última comprobación. Si mañana alguien preguntara *quién* retiró el permiso de edición y
@@ -282,7 +282,7 @@ el apartado 2.
    se equivocó de contraseña, también los intentos fallidos (`LOGIN_ERROR`), con la fecha y la
    dirección IP.
 
-> **Pregunta.** ¿Qué información aporta el registro de eventos que no aportaba el token? En la
+> **Pregunta 5.2.** ¿Qué información aporta el registro de eventos que no aportaba el token? En la
 > entrada de la retirada del rol, la columna **User** no muestra un nombre, sino un identificador:
 > ¿de quién es, y por qué no aparece entre los usuarios del realm `curso`?
 
@@ -318,7 +318,7 @@ Con este apartado, el modelo reúne ya usuarios cuyos permisos llegan por camino
 diferentes, roles compuestos y roles de cliente. Cabe preguntarse, entonces, qué ocurre cuando esos
 caminos parecen no estar de acuerdo.
 
-> **Pregunta.** Supóngase que una persona pertenece a dos grupos cuyos roles parecen contradecirse:
+> **Pregunta 6.1.** Supóngase que una persona pertenece a dos grupos cuyos roles parecen contradecirse:
 > uno le concede un permiso y el otro, en principio, debería negárselo. ¿Qué permisos efectivos
 > tendría en Keycloak, y por qué?
 
