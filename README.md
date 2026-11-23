@@ -250,25 +250,22 @@ funcionan los tokens.
 
 ---
 
-## 6. Trabajo autónomo (obligatorio)
+## 6. Un permiso nuevo: el borrado de cuenta
 
-Esta parte se resuelve **de forma autónoma**: no hay pasos guiados, solo un objetivo. Se aplica lo
-construido en los apartados anteriores y, cuando haga falta, la documentación de Keycloak. Forma
-parte de la entrega.
-
-**Objetivo.** La organización necesita que algunas personas puedan **darse de baja ellas mismas**,
+Para consolidar el modelo, se añade un permiso más siguiendo el mismo patrón de los apartados
+anteriores. La organización necesita que algunas personas puedan **darse de baja ellas mismas**,
 borrando su propia cuenta desde el portal de cuenta. Ese permiso existe en Keycloak como rol de
 cliente: `account` → `delete-account`.
 
-1. Diseñe e implemente el acceso siguiendo el mismo modelo del apartado 3: un rol de negocio `baja`
-   que contenga ese permiso, un grupo que lo conceda y un usuario nuevo incorporado a ese grupo. El
-   usuario debe poder abrir su consola de cuenta (recuerde lo que ocurrió con Marta).
+1. Siguiendo el mismo modelo del apartado 3, cree un rol de negocio `baja` que contenga ese permiso,
+   un grupo que lo conceda y un usuario nuevo incorporado a ese grupo. El usuario debe poder abrir su
+   consola de cuenta (recuerde lo que ocurrió con Marta).
 2. Compruebe en el token (apartado 4) que el usuario recibe efectivamente `delete-account`.
 3. Acceda a la consola de cuenta de ese usuario. ¿Aparece la opción de borrar la cuenta? Si no
    aparece, averigüe por qué, si el rol está bien configurado y el token lo demuestra, y consiga que
    aparezca.
-4. Borre la cuenta desde el propio portal y compruebe en la consola de administración que el
-   usuario ya no existe.
+4. Borre la cuenta desde el propio portal y compruebe en la consola de administración que el usuario
+   ya no existe.
 
 > **Pista** (consúltela solo si se atasca en el punto 3).
 >
@@ -280,15 +277,6 @@ cliente: `account` → `delete-account`.
 > </details>
 
 ---
-
-## Entrega
-
-1. Se exporta el realm construido como evidencia del trabajo: realm `curso` → **Realm settings** →
-   menú **Action** (sup. der.) → **Partial export** → marque **Export groups and roles** → Export.
-   Entregue el fichero JSON exportado (debe incluir el rol `baja` y su grupo).
-2. **Trabajo autónomo:** captura del token del usuario con `delete-account` y captura de la opción
-   de borrar cuenta en su portal, junto con una explicación breve de por qué no aparecía al
-   principio y qué hubo que cambiar.
 
 ## Resolución de problemas
 
